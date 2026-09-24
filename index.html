@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>TANHO — Мобильная видеоплатформа</title>
+<style>
+/* ==========================================================================
+   1. ДИЗАЙН-СИСТЕМА И ПЕРЕМЕННЫЕ
+   ========================================================================== */
+:root {
+  --bg-dark: #080910;
+  --bg-surface: #121522;
+  --bg-surface-hover: #1b1f30;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(255, 255, 255, 0.16);
+  --text-main: #ffffff;
+  --text-sub: #8a92a6;
+  --text-muted: #62697b;
+  --primary-accent: #6c5ce7;
+  --primary-accent-hover: #5b4cc4;
+  --like-red: #ff3040;
+  --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  
+  --header-height: 48px;
+  --nav-height: 58px;
+  
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-stack);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+html, body {
+  height: 100%;
+  background: #030407;
+  color: var(--text-main);
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Мобильный контейнер */
+.standalone-shell {
+  width: 100%;
+  max-width: 430px;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--bg-dark);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   2. ШАПКА (HEADER) — скрывается на Reels
+   ========================================================================== */
+.app-header {
+  height: calc(var(--header-height) + var(--safe-top));
+  padding-top: var(--safe-top);
+  padding-left: calc(14px + var(--safe-left));
+  padding-right: calc(14px + var(--safe-right));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(8, 9, 16, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 50;
+  flex-shrink: 0;
+}
+
+.app-logo {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   3. ОСНОВНОЙ КОНТЕНТ И ВИТРИНА
+   ========================================================================== */
+.main-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tab-screen.active {
+  display: flex;
+}
+
+/* ==========================================================================
+   4. ЛЕНТА «ВИДЕО» (ПОЛНОЦЕННЫЙ VIDEO FEED)
+   ========================================================================== */
+.video-feed {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 14px 14px calc(80px + var(--safe-bottom)) 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.video-feed::-webkit-scrollbar {
+  display: none;
+}
+
+.yt-card {
+  background: var(--bg-surface);
+  border-radius: 18px;
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.yt-card:active {
+  transform: scale(0.985);
+  border-color: var(--border-focus);
+}
+
+.yt-thumb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+}
+
+.yt-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.yt-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(8, 9, 16, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.yt-info-block {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 2px 2px 0 2px;
+}
+
+.yt-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.yt-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.yt-title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-main);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.yt-channel {
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
+.yt-meta-row {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.yt-menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-sub);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+
+.yt-menu-btn:active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   5. ЛЕНТА «REELS» (БЕЗ ВЕРХНЕЙ ШАПКИ)
+   ========================================================================== */
+.reels-vertical-feed {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+
+.reels-vertical-feed::-webkit-scrollbar {
+  display: none;
+}
+
+.reel-card {
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px 16px calc(80px + var(--safe-bottom)) 16px;
+}
+
+.reel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
+  pointer-events: none;
+}
+
+.reel-actions-column {
+  position: absolute;
+  right: 16px;
+  bottom: calc(85px + var(--safe-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  z-index: 10;
+}
+
+.reel-action-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.reel-action-btn:active {
+  transform: scale(0.9);
+}
+
+.reel-icon-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(18, 21, 34, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reel-action-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.reel-bottom-info {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 60px;
+}
+
+.reel-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.reel-author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.reel-author-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.reel-caption {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   6. НИЖНЯЯ НАВИГАЦИЯ (FLOATING CAPSULE NAV)
+   ========================================================================== */
+.bottom-capsule-nav {
+  position: absolute;
+  bottom: calc(10px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  background: rgba(18, 21, 34, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 4px;
+  z-index: 90;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+  gap: 4px;
+}
+
+.capsule-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-sub);
+  height: 50px;
+  padding: 0 22px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.capsule-btn.active {
+  background: var(--primary-accent);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(108, 92, 231, 0.45);
+}
+
+.capsule-btn svg {
+  width: 19px;
+  height: 19px;
+  transition: transform 0.22s ease;
+}
+
+.capsule-btn.active svg {
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   7. ЭКРАН ПРОСМОТРА ВИДЕО (VIDEO VIEWER)
+   ========================================================================== */
+.video-viewer {
+  position: absolute;
+  inset: 0;
+  z-index: 120;
+  display: none;
+  flex-direction: column;
+  background: var(--bg-dark);
+  overflow: hidden;
+}
+
+.video-viewer.active {
+  display: flex;
+}
+
+.video-viewer-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-bottom: calc(30px + var(--safe-bottom));
+}
+
+.video-viewer-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Плеер */
+.video-viewer-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  margin-top: var(--safe-top);
+}
+
+.video-viewer-player img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Прозрачная кнопка Назад внутри плеера */
+.player-back-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+  transition: transform 0.15s ease;
+}
+
+.player-back-btn:active {
+  transform: scale(0.88);
+}
+
+/* Элементы управления плеером */
+.player-controls-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.85) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  pointer-events: none;
+}
+
+.player-center-play {
+  align-self: center;
+  margin-auto: 0;
+  color: #fff;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
+}
+
+.player-bottom-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.player-progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.player-progress-fill {
+  width: 35%;
+  height: 100%;
+  background: var(--like-red);
+}
+
+.player-time {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Название под плеером */
+.viewer-title-box {
+  padding: 12px 14px 4px 14px;
+}
+
+.viewer-title {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-main);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Панель действий */
+.viewer-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 12px 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.viewer-actions-row::-webkit-scrollbar {
+  display: none;
+}
+
+.action-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.action-pill:active {
+  transform: scale(0.95);
+  background: var(--bg-surface-hover);
+}
+
+.action-pill.liked {
+  color: var(--like-red);
+  border-color: rgba(255, 48, 64, 0.3);
+  background: rgba(255, 48, 64, 0.08);
+}
+
+/* Автор канала */
+.viewer-author-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.viewer-author-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.viewer-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--border-color);
+}
+
+.viewer-channel-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.viewer-channel-subs {
+  font-size: 11px;
+  color: var(--text-sub);
+  margin-top: 1px;
+}
+
+.subscribe-btn {
+  padding: 7px 16px;
+  border-radius: 20px;
+  background: var(--primary-accent);
+  color: #fff;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.subscribe-btn:active {
+  transform: scale(0.94);
+}
+
+.subscribe-btn.subscribed {
+  background: var(--bg-surface);
+  color: var(--text-sub);
+  border: 1px solid var(--border-color);
+}
+
+/* Описание */
+.viewer-description-box {
+  padding: 12px 14px;
+  background: rgba(18, 21, 34, 0.5);
+  margin: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.viewer-description-text {
+  font-size: 12.5px;
+  color: var(--text-sub);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.viewer-description-box.expanded .viewer-description-text {
+  display: block;
+}
+
+.viewer-description-toggle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-accent);
+  margin-top: 6px;
+  display: inline-block;
+}
+
+/* Похожие видео */
+.similar-section {
+  padding: 8px 0 16px 0;
+}
+
+.similar-header {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 14px 10px 14px;
+  color: var(--text-main);
+}
+
+.similar-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0 14px;
+  scrollbar-width: none;
+}
+
+.similar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.similar-card {
+  flex: 0 0 140px;
+  cursor: pointer;
+}
+
+.similar-thumb {
+  width: 140px;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+.similar-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.similar-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.3;
+  margin-top: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   8. МОДАЛЬНЫЕ ОПЦИИ И КОММЕНТАРИИ (BOTTOM SHEET)
+   ========================================================================== */
+.bottom-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.bottom-sheet-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottom-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-surface);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-top: 1px solid var(--border-color);
+  padding: 12px 16px calc(20px + var(--safe-bottom)) 16px;
+  z-index: 201;
+  transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+}
+
+.bottom-sheet.active {
+  transform: translateY(0);
+}
+
+.bottom-sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border-focus);
+  align-self: center;
+  margin-bottom: 14px;
+}
+
+.sheet-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.sheet-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sheet-menu-item {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sheet-menu-item:active {
+  background: var(--bg-surface-hover);
+}
+
+.comments-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 0 12px 0;
+}
+
+.comment-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-size: cover;
+  flex-shrink: 0;
+}
+
+.comment-body {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.comment-author {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.comment-text {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.comment-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.comment-input {
+  flex: 1;
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+}
+
+.comment-input:focus {
+  border-color: var(--primary-accent);
+}
+
+.comment-send-btn {
+  background: var(--primary-accent);
+  border: none;
+  color: #fff;
+  padding: 0 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   9. ВСПЛЫВАЮЩИЕ УВЕДОМЛЕНИЯ (TOAST)
+   ========================================================================== */
+.toast-container {
+  position: absolute;
+  bottom: calc(75px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.toast {
+  background: rgba(18, 21, 34, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  animation: toastIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="standalone-shell">
+  <!-- Верхняя шапка (Отображается ТОЛЬКО на вкладке "Видео") -->
+  <header class="app-header" id="appHeader">
+    <div class="app-logo">TANHO</div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="showToast('Поиск временно недоступен')" title="Поиск">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="icon-btn" onclick="openGlobalMenu()" title="Опции">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Основной контент -->
+  <main class="main-content">
+    <!-- ЭКРАН 1: ВИДЕО (Feed) -->
+    <section class="tab-screen active" id="feedScreen">
+      <div class="video-feed" id="videoFeedContainer"></div>
+    </section>
+
+    <!-- ЭКРАН 2: REELS -->
+    <section class="tab-screen" id="reelsScreen">
+      <div class="reels-vertical-feed" id="reelsFeedContainer"></div>
+    </section>
+  </main>
+
+  <!-- Нижняя навигация-капсула -->
+  <nav class="bottom-capsule-nav">
+    <button class="capsule-btn active" id="tabFeedBtn" onclick="switchTab('feed')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="15" rx="3" ry="3"></rect>
+        <polygon points="10 9 16 11.5 10 14 10 9" fill="currentColor"></polygon>
+      </svg>
+      <span>Видео</span>
+    </button>
+    <button class="capsule-btn" id="tabReelsBtn" onclick="switchTab('reels')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="2" width="16" height="20" rx="4" ry="4"></rect>
+        <path d="M4 7h16"></path>
+        <path d="M4 17h16"></path>
+        <polygon points="10 10 15 12 10 14 10 10" fill="currentColor"></polygon>
+      </svg>
+      <span>Reels</span>
+    </button>
+  </nav>
+
+  <!-- Экран просмотра видео (Video Viewer Modal) -->
+  <div class="video-viewer" id="videoViewer">
+    <div class="video-viewer-scroll">
+      
+      <!-- Плеер -->
+      <div class="video-viewer-player">
+        <!-- Прозрачная кнопка назад без фона -->
+        <button class="player-back-btn" onclick="closeVideoViewer()" title="Назад">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+        
+        <img id="viewerThumb" src="" alt="">
+        
+        <!-- Оверлей плеера -->
+        <div class="player-controls-overlay">
+          <div></div>
+          <div class="player-center-play">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+          </div>
+          <div class="player-bottom-bar">
+            <div class="player-progress-track">
+              <div class="player-progress-fill"></div>
+            </div>
+            <div class="player-time">
+              <span>02:14</span>
+              <span id="viewerDuration">08:42</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Название под плеером -->
+      <div class="viewer-title-box">
+        <h1 class="viewer-title" id="viewerTitle"></h1>
+      </div>
+
+      <!-- Действия -->
+      <div class="viewer-actions-row">
+        <button class="action-pill" id="viewerLikeBtn" onclick="toggleViewerLike()">
+          <svg class="heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span id="viewerLikesCount">0</span>
+        </button>
+        
+        <button class="action-pill" onclick="openCommentsSheet()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span id="viewerCommentsCount">0</span>
+        </button>
+        
+        <button class="action-pill" onclick="shareVideo()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span>Поделиться</span>
+        </button>
+
+        <button class="action-pill" onclick="openVideoMenu()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="1"/><circle cx="5" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+        </button>
+      </div>
+
+      <!-- Автор канала -->
+      <div class="viewer-author-row">
+        <div class="viewer-author-info">
+          <div class="viewer-avatar" id="viewerAvatar"></div>
+          <div>
+            <div class="viewer-channel-name" id="viewerChannel"></div>
+            <div class="viewer-channel-subs" id="viewerSubscribers"></div>
+          </div>
+        </div>
+        <button class="subscribe-btn" id="viewerSubBtn" onclick="toggleViewerSubscribe()">Подписаться</button>
+      </div>
+
+      <!-- Описание -->
+      <div class="viewer-description-box" id="viewerDescBox" onclick="toggleDescription()">
+        <div class="viewer-description-text" id="viewerDescText"></div>
+        <span class="viewer-description-toggle" id="viewerDescToggle">Показать ещё</span>
+      </div>
+
+      <!-- Похожие видео -->
+      <div class="similar-section">
+        <div class="similar-header">Похожие видео</div>
+        <div class="similar-scroll" id="similarContainer"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Sheet (Меню и Комментарии) -->
+  <div class="bottom-sheet-backdrop" id="sheetBackdrop" onclick="closeBottomSheet()"></div>
+  <div class="bottom-sheet" id="bottomSheet">
+    <div class="bottom-sheet-handle"></div>
+    <div id="sheetContent"></div>
+  </div>
+
+  <!-- Контейнер Тоастов -->
+  <div class="toast-container" id="toastContainer"></div>
+</div>
+
+<script>
+/* ==========================================================================
+   ДАННЫЕ И СОСТОЯНИЕ (STATE)
+   ========================================================================== */
+const ytVideosData = [
+  {
+    id: 1,
+    title: 'Обзор нового TANHO — как работает платформа и вертикальный плеер',
+    channel: 'TANHO Official',
+    subscribers: '450K подписчиков',
+    avatar: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=120&auto=format&fit=crop&q=80',
+    thumb: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&auto=format&fit=crop&q=80',
+    duration: '8:42',
+    views: '124K',
+    time: '3 дня назад',
+    likes: 2450,
+    commentsCount: 128,
+    description: 'В этом подробном видео мы разбираем все новые функции видеоплатформы TANHO! Узнайте, как настроить рекомендации, смотреть Reels в высоком качестве и взаимодействовать с авторами контента.',
+    isSubscribed: false,
+    isLiked: false,
+    comments: [
+      { author: 'Алексей И.', text: 'Дизайн просто пушка! Очень плавно работает 🔥', time: '2 дня назад' },
+      { author: 'Мария К.', text: 'Ждала этот апдейт, интерфейс стал гораздо удобнее!', time: '1 день назад' }
+    ]
+  },
+  {
+    id: 2,
+    title: 'Ташкент с высоты птичьего полета: дрон 4K • красивый закат над городом',
+    channel: '@urbancore',
+    subscribers: '128K подписчиков',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80',
+    thumb: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&auto=format&fit=crop&q=80',
+    duration: '3:12',
+    views: '89K',
+    time: '5 дней назад',
+    likes: 8120,
+    commentsCount: 94,
+    description: 'Завораживающие съемки вечернего Ташкента на дрон DJI Mavic 3. Посмотрите на архитектуру города под лучшим углом в 4K 60fps.',
+    isSubscribed: true,
+    isLiked: true,
+    comments: [
+      { author: 'Дмитрий В.', text: 'Кадры невероятные, какая локация на 2-й минуте?', time: '4 дня назад' }
+    ]
+  },
+  {
+    id: 3,
+    title: 'Утро в горах Чимгана — релакс, природа, тишина 🏔️',
+    channel: '@naturevibe',
+    subscribers: '89K подписчиков',
+    avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=120&auto=format&fit=crop&q=80',
+    thumb: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&auto=format&fit=crop&q=80',
+    duration: '12:05',
+    views: '45K',
+    time: '1 неделю назад',
+    likes: 3120,
+    commentsCount: 42,
+    description: 'Чистый горный воздух, свежесть утра и звуки природы для концентрации, учебы или глубокого сна. Снято в живописном ущелье.',
+    isSubscribed: false,
+    isLiked: false,
+    comments: []
+  },
+  {
+    id: 4,
+    title: 'Как собрать идеальный Reels за 60 секунд — монтаж в телефоне',
+    channel: '@CaliraVal',
+    subscribers: '310K подписчиков',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&auto=format&fit=crop&q=80',
+    thumb: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80',
+    duration: '5:33',
+    views: '210K',
+    time: '2 дня назад',
+    likes: 14200,
+    commentsCount: 310,
+    description: 'Быстрый гайд по моушн-дизайну и быстрым переходам для ваших коротких видео. Разбираем эффекты и цветокоррекцию.',
+    isSubscribed: false,
+    isLiked: false,
+    comments: []
+  },
+  {
+    id: 5,
+    title: 'Готовим плов по-узбекски: пошаговый рецепт от шефа',
+    channel: '@tasty.uz',
+    subscribers: '520K подписчиков',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80',
+    thumb: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80',
+    duration: '14:22',
+    views: '312K',
+    time: '4 дня назад',
+    likes: 18900,
+    commentsCount: 512,
+    description: 'Пошаговый мастер-класс по приготовлению праздничного ферганского плова. Все тонкости выбора риса девзира и мяса.',
+    isSubscribed: true,
+    isLiked: false,
+    comments: []
+  },
+  {
+    id: 6,
+    title: 'Flutter & Mobile UI: Разработка современного приложения',
+    channel: 'DevCode Studio',
+    subscribers: '95K подписчиков',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+    thumb: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80',
+    duration: '18:15',
+    views: '67K',
+    time: '6 дней назад',
+    likes: 4800,
+    commentsCount: 88,
+    description: 'Уроки верстки и анимации на Flutter. Разбираем кастомные виджеты и оптимизацию производительности.',
+    isSubscribed: false,
+    isLiked: false,
+    comments: []
+  }
+];
+
+const reelsData = [
+  {
+    id: 101,
+    author: '@CaliraVal',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120',
+    bg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800',
+    caption: 'Летнее видео у моря • TANHO Reels 🌊 #travel #vlog #ocean',
+    likes: '2.4K',
+    comments: '124',
+    isLiked: false
+  },
+  {
+    id: 102,
+    author: '@urbancore',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120',
+    bg: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800',
+    caption: 'Ночной город не спит • time-lapse 4K 🌃 #city #night',
+    likes: '8.1K',
+    comments: '412',
+    isLiked: true
+  },
+  {
+    id: 103,
+    author: '@naturevibe',
+    avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=120',
+    bg: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800',
+    caption: 'Утро в горах • дыхание природы 🏔️ #mountains #chill',
+    likes: '312',
+    comments: '28',
+    isLiked: false
+  }
+];
+
+const state = {
+  activeTab: 'feed',
+  currentViewerVideoId: null,
+  isDescExpanded: false
+};
+
+/* ==========================================================================
+   ЛОГИКА И РЕНДЕР
+   ========================================================================== */
+
+// Рендер главной ленты «Видео» (СТРОГО 16:9 + БЛОК ИНФОРМАЦИИ)
+function renderFeed() {
+  const container = document.getElementById('videoFeedContainer');
+  if (!container) return;
+  
+  container.innerHTML = ytVideosData.map(v => `
+    <article class="yt-card" onclick="openVideoViewer(${v.id})">
+      <div class="yt-thumb-wrap">
+        <img src="${v.thumb}" alt="${v.title}" loading="lazy">
+        <span class="yt-duration">${v.duration}</span>
+      </div>
+      <div class="yt-info-block">
+        <div class="yt-avatar" style="background-image:url('${v.avatar}')"></div>
+        <div class="yt-details">
+          <div class="yt-title">${v.title}</div>
+          <div class="yt-channel">${v.channel}</div>
+          <div class="yt-meta-row">
+            <span>${v.views} просмотров</span>
+            <span>•</span>
+            <span>${v.time}</span>
+          </div>
+        </div>
+        <button class="yt-menu-btn" onclick="event.stopPropagation(); openVideoMenu(${v.id})">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </button>
+      </div>
+    </article>
+  `).join('');
+}
+
+// Рендер вертикальной ленты Reels
+function renderReels() {
+  const container = document.getElementById('reelsFeedContainer');
+  if (!container) return;
+
+  container.innerHTML = reelsData.map(r => `
+    <div class="reel-card" style="background-image: url('${r.bg}');">
+      <div class="reel-overlay"></div>
+      
+      <!-- Экшены справа -->
+      <div class="reel-actions-column">
+        <button class="reel-action-btn" onclick="toggleReelLike(${r.id}, this)">
+          <div class="reel-icon-circle">
+            <svg class="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="${r.isLiked ? 'var(--like-red)' : 'none'}" stroke="${r.isLiked ? 'var(--like-red)' : 'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <span class="reel-action-val">${r.likes}</span>
+        </button>
+
+        <button class="reel-action-btn" onclick="openCommentsSheet()">
+          <div class="reel-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </div>
+          <span class="reel-action-val">${r.comments}</span>
+        </button>
+
+        <button class="reel-action-btn" onclick="shareVideo()">
+          <div class="reel-icon-circle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+          <span class="reel-action-val">Репост</span>
+        </button>
+
+        <button class="reel-action-btn" onclick="openVideoMenu()">
+          <div class="reel-icon-circle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </div>
+        </button>
+      </div>
+
+      <!-- Автор и описание -->
+      <div class="reel-bottom-info">
+        <div class="reel-author">
+          <img class="reel-author-avatar" src="${r.avatar}" alt="">
+          <span class="reel-author-name">${r.author}</span>
+        </div>
+        <div class="reel-caption">${r.caption}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Переключение вкладок (Шапка скрывается на Reels!)
+function switchTab(tab) {
+  state.activeTab = tab;
+  const feedScreen = document.getElementById('feedScreen');
+  const reelsScreen = document.getElementById('reelsScreen');
+  const tabFeedBtn = document.getElementById('tabFeedBtn');
+  const tabReelsBtn = document.getElementById('tabReelsBtn');
+  const header = document.getElementById('appHeader');
+
+  if (tab === 'feed') {
+    feedScreen.classList.add('active');
+    reelsScreen.classList.remove('active');
+    tabFeedBtn.classList.add('active');
+    tabReelsBtn.classList.remove('active');
+    if (header) header.style.display = 'flex'; // Показываем шапку на вкладке Видео
+  } else {
+    reelsScreen.classList.add('active');
+    feedScreen.classList.remove('active');
+    tabReelsBtn.classList.add('active');
+    tabFeedBtn.classList.remove('active');
+    if (header) header.style.display = 'none'; // СКРЫВАЕМ шапку на вкладке Reels!
+  }
+}
+
+// Открытие видео в модальном просмотрщике
+function openVideoViewer(id) {
+  const v = ytVideosData.find(x => x.id === id);
+  if (!v) return;
+
+  state.currentViewerVideoId = id;
+  state.isDescExpanded = false;
+
+  document.getElementById('viewerThumb').src = v.thumb;
+  document.getElementById('viewerTitle').textContent = v.title;
+  document.getElementById('viewerDuration').textContent = v.duration;
+  document.getElementById('viewerLikesCount').textContent = v.likes;
+  document.getElementById('viewerCommentsCount').textContent = v.commentsCount;
+  document.getElementById('viewerAvatar').style.backgroundImage = `url('${v.avatar}')`;
+  document.getElementById('viewerChannel').textContent = v.channel;
+  document.getElementById('viewerSubscribers').textContent = v.subscribers;
+  document.getElementById('viewerDescText').textContent = v.description;
+
+  const descBox = document.getElementById('viewerDescBox');
+  descBox.classList.remove('expanded');
+  document.getElementById('viewerDescToggle').textContent = 'Показать ещё';
+
+  updateViewerLikeUI(v.isLiked);
+  updateViewerSubUI(v.isSubscribed);
+  renderSimilarVideos(id);
+
+  document.getElementById('videoViewer').classList.add('active');
+}
+
+function closeVideoViewer() {
+  document.getElementById('videoViewer').classList.remove('active');
+  state.currentViewerVideoId = null;
+}
+
+function toggleDescription() {
+  const descBox = document.getElementById('viewerDescBox');
+  const toggleBtn = document.getElementById('viewerDescToggle');
+  state.isDescExpanded = !state.isDescExpanded;
+
+  if (state.isDescExpanded) {
+    descBox.classList.add('expanded');
+    toggleBtn.textContent = 'Свернуть';
+  } else {
+    descBox.classList.remove('expanded');
+    toggleBtn.textContent = 'Показать ещё';
+  }
+}
+
+function renderSimilarVideos(currentId) {
+  const container = document.getElementById('similarContainer');
+  const list = ytVideosData.filter(v => v.id !== currentId);
+
+  container.innerHTML = list.map(v => `
+    <div class="similar-card" onclick="openVideoViewer(${v.id})">
+      <div class="similar-thumb">
+        <img src="${v.thumb}" alt="">
+      </div>
+      <div class="similar-title">${v.title}</div>
+    </div>
+  `).join('');
+}
+
+function toggleViewerLike() {
+  if (!state.currentViewerVideoId) return;
+  const v = ytVideosData.find(x => x.id === state.currentViewerVideoId);
+  if (!v) return;
+
+  v.isLiked = !v.isLiked;
+  v.likes += v.isLiked ? 1 : -1;
+
+  document.getElementById('viewerLikesCount').textContent = v.likes;
+  updateViewerLikeUI(v.isLiked);
+
+  showToast(v.isLiked ? 'Добавлено в понравившиеся' : 'Лайк отменен');
+}
+
+function updateViewerLikeUI(isLiked) {
+  const btn = document.getElementById('viewerLikeBtn');
+  const svg = btn.querySelector('.heart-icon');
+
+  if (isLiked) {
+    btn.classList.add('liked');
+    svg.setAttribute('fill', 'var(--like-red)');
+    svg.setAttribute('stroke', 'var(--like-red)');
+  } else {
+    btn.classList.remove('liked');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+  }
+}
+
+function toggleReelLike(id, btn) {
+  const r = reelsData.find(x => x.id === id);
+  if (!r) return;
+
+  r.isLiked = !r.isLiked;
+  const svg = btn.querySelector('.heart-icon');
+
+  if (r.isLiked) {
+    svg.setAttribute('fill', 'var(--like-red)');
+    svg.setAttribute('stroke', 'var(--like-red)');
+    showToast('Добавлено в понравившиеся');
+  } else {
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+  }
+}
+
+function toggleViewerSubscribe() {
+  if (!state.currentViewerVideoId) return;
+  const v = ytVideosData.find(x => x.id === state.currentViewerVideoId);
+  if (!v) return;
+
+  v.isSubscribed = !v.isSubscribed;
+  updateViewerSubUI(v.isSubscribed);
+
+  showToast(v.isSubscribed ? 'Вы подписались на канал' : 'Вы отписались от канала');
+}
+
+function updateViewerSubUI(isSubscribed) {
+  const btn = document.getElementById('viewerSubBtn');
+  if (isSubscribed) {
+    btn.textContent = 'Подписан ✓';
+    btn.classList.add('subscribed');
+  } else {
+    btn.textContent = 'Подписаться';
+    btn.classList.remove('subscribed');
+  }
+}
+
+function shareVideo() {
+  if (navigator.share) {
+    navigator.share({ title: 'TANHO Video', url: window.location.href }).catch(() => {});
+  } else {
+    showToast('Ссылка скопирована в буфер');
+  }
+}
+
+/* ==========================================================================
+   МОДАЛЬНЫЕ ОКНА И МЕНЮ (BOTTOM SHEET)
+   ========================================================================== */
+
+function openVideoMenu(id) {
+  const content = document.getElementById('sheetContent');
+  content.innerHTML = `
+    <div class="sheet-title">Опции видео</div>
+    <div class="sheet-menu-list">
+      <button class="sheet-menu-item" onclick="handleMenuOption('Добавлено в интересное')">💡 Интересно</button>
+      <button class="sheet-menu-item" onclick="shareVideo(); closeBottomSheet();">🔗 Поделиться</button>
+      <button class="sheet-menu-item" onclick="handleMenuOption('Жалоба отправлена')">🚩 Пожаловаться</button>
+    </div>
+  `;
+  showBottomSheet();
+}
+
+function openGlobalMenu() {
+  const content = document.getElementById('sheetContent');
+  content.innerHTML = `
+    <div class="sheet-title">Настройки TANHO</div>
+    <div class="sheet-menu-list">
+      <button class="sheet-menu-item" onclick="handleMenuOption('Качество видео: 1080p')">⚙️ Качество воспроизведения</button>
+      <button class="sheet-menu-item" onclick="handleMenuOption('Тёмная тема включена')">🌙 Оформление</button>
+      <button class="sheet-menu-item" onclick="handleMenuOption('Очищено')">🗑️ Очистить кэш</button>
+    </div>
+  `;
+  showBottomSheet();
+}
+
+function openCommentsSheet() {
+  const v = ytVideosData.find(x => x.id === state.currentViewerVideoId) || ytVideosData[0];
+  const content = document.getElementById('sheetContent');
+
+  content.innerHTML = `
+    <div class="sheet-title">Комментарии (${v.comments.length})</div>
+    <div class="comments-list" id="commentsListContainer">
+      ${v.comments.length ? v.comments.map(c => `
+        <div class="comment-item">
+          <div class="comment-avatar" style="background-image: url('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100');"></div>
+          <div class="comment-body">
+            <div class="comment-author">${c.author}</div>
+            <div class="comment-text">${c.text}</div>
+          </div>
+        </div>
+      `).join('') : '<div style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">Пока нет комментариев. Будьте первым!</div>'}
+    </div>
+    <div class="comment-input-row">
+      <input type="text" class="comment-input" id="commentInputText" placeholder="Написать комментарий...">
+      <button class="comment-send-btn" onclick="submitComment()">Отправить</button>
+    </div>
+  `;
+  showBottomSheet();
+}
+
+function submitComment() {
+  const input = document.getElementById('commentInputText');
+  if (!input || !input.value.trim()) return;
+
+  const v = ytVideosData.find(x => x.id === state.currentViewerVideoId) || ytVideosData[0];
+  v.comments.push({
+    author: 'Вы',
+    text: input.value.trim(),
+    time: 'Только что'
+  });
+  v.commentsCount++;
+
+  document.getElementById('viewerCommentsCount').textContent = v.commentsCount;
+  showToast('Комментарий опубликован');
+  closeBottomSheet();
+}
+
+function handleMenuOption(msg) {
+  showToast(msg);
+  closeBottomSheet();
+}
+
+function showBottomSheet() {
+  document.getElementById('sheetBackdrop').classList.add('active');
+  document.getElementById('bottomSheet').classList.add('active');
+}
+
+function closeBottomSheet() {
+  document.getElementById('sheetBackdrop').classList.remove('active');
+  document.getElementById('bottomSheet').classList.remove('active');
+}
+
+/* ==========================================================================
+   ТОАСТЫ (TOAST NOTIFICATIONS)
+   ========================================================================== */
+function showToast(text) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = text;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(10px)';
+    toast.style.transition = 'all 0.2s ease';
+    setTimeout(() => toast.remove(), 200);
+  }, 2200);
+}
+
+/* Инициализация при загрузке */
+document.addEventListener('DOMContentLoaded', () => {
+  renderFeed();
+  renderReels();
+});
+</script>
+</body>
+  </html>
