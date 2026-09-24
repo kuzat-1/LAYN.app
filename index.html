@@ -421,7 +421,7 @@ body {
   border: none;
   color: var(--text-sub);
   height: 50px;
-  padding: 0 22px;
+  padding: 0 16px;
   border-radius: 20px;
   font-size: 10.5px;
   font-weight: 600;
@@ -432,6 +432,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 3px;
+  min-width: 76px;
 }
 
 .capsule-btn.active {
@@ -448,6 +449,144 @@ body {
 
 .capsule-btn.active svg {
   transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   6.1 ИСТОРИЯ (YouTube-стиль, только на этом устройстве)
+   ========================================================================== */
+.history-topbar {
+  padding: 14px 14px 6px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.history-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.history-title {
+  font-size: 17px;
+  font-weight: 800;
+}
+.history-clear-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-sub);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.history-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 8px 12px;
+}
+.history-search-box input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 13px;
+}
+.history-search-box input::placeholder { color: var(--text-muted); }
+.history-device-note {
+  margin: 0 14px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 8px 10px;
+  line-height: 1.4;
+}
+.history-group-label {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 14px 14px 6px 14px;
+}
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 0 14px calc(80px + var(--safe-bottom)) 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.history-list::-webkit-scrollbar { display: none; }
+.history-item {
+  display: flex;
+  gap: 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 8px;
+  cursor: pointer;
+  align-items: flex-start;
+}
+.history-item:active { transform: scale(0.985); }
+.history-thumb {
+  position: relative;
+  width: 150px;
+  min-width: 150px;
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  flex-shrink: 0;
+}
+.history-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.history-duration {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(8,9,16,0.85);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.history-progress { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.25); }
+.history-progress > div { height: 100%; background: var(--like-red); }
+.history-meta { flex: 1; min-width: 0; display: flex; gap: 6px; }
+.history-texts { flex: 1; min-width: 0; }
+.history-vtitle {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.history-vsub { font-size: 11.5px; color: var(--text-sub); margin-top: 3px; }
+.history-watched { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.history-remove {
+  background: transparent;
+  border: none;
+  color: var(--text-sub);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+.history-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 40px 20px;
+  line-height: 1.6;
 }
 
 /* ==========================================================================
@@ -997,6 +1136,22 @@ body {
     <section class="tab-screen" id="reelsScreen">
       <div class="reels-vertical-feed" id="reelsFeedContainer"></div>
     </section>
+
+    <!-- ЭКРАН 3: ИСТОРИЯ (YouTube-стиль, своя у каждого на устройстве) -->
+    <section class="tab-screen" id="historyScreen">
+      <div class="history-topbar">
+        <div class="history-title-row">
+          <div class="history-title">История</div>
+          <button class="history-clear-btn" id="historyClearBtn" onclick="clearWatchHistory()">Очистить всё</button>
+        </div>
+        <div class="history-search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="historySearchInput" placeholder="Поиск в истории..." oninput="setHistoryFilter(this.value)">
+        </div>
+      </div>
+      <div class="history-device-note">История хранится только на этом устройстве. У каждого зрителя своя. Сменил телефон или браузер — история потерялась.</div>
+      <div class="history-list" id="historyContainer"></div>
+    </section>
   </main>
 
   <!-- Нижняя навигация-капсула -->
@@ -1016,6 +1171,14 @@ body {
         <polygon points="10 10 15 12 10 14 10 10" fill="currentColor"></polygon>
       </svg>
       <span>Reels</span>
+    </button>
+    <button class="capsule-btn" id="tabHistoryBtn" onclick="switchTab('history')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v5h5"></path>
+        <path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path>
+        <path d="M12 7v5l4 2"></path>
+      </svg>
+      <span>История</span>
     </button>
   </nav>
 
@@ -1268,8 +1431,105 @@ const reelsData = [
 const state = {
   activeTab: 'feed',
   currentViewerVideoId: null,
-  isDescExpanded: false
+  isDescExpanded: false,
+  historyFilter: ''
 };
+
+const HISTORY_KEY = 'layn_watch_history_v1';
+const HISTORY_MAX = 100;
+
+function loadWatchHistory() {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr : [];
+  } catch (e) { return []; }
+}
+function saveWatchHistory(list) {
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, HISTORY_MAX))); } catch (e) {}
+}
+function addToWatchHistory(id) {
+  const v = ytVideosData.find(x => x.id === id);
+  if (!v) return;
+  let list = loadWatchHistory().filter(h => h.id !== id);
+  list.unshift({ id: v.id, at: Date.now() });
+  saveWatchHistory(list);
+  if (state.activeTab === 'history') renderHistory();
+}
+function timeAgo(ts) {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 60) return 'только что';
+  const m = Math.floor(s / 60);
+  if (m < 60) return m + ' мин. назад';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + ' ч. назад';
+  const d = Math.floor(h / 24);
+  if (d === 1) return 'вчера';
+  if (d < 7) return d + ' дн. назад';
+  try { return new Date(ts).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }); }
+  catch (e) { return d + ' дн. назад'; }
+}
+function historyDayGroup(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  if (d.toDateString() === now.toDateString()) return 'Сегодня';
+  const y = new Date(now); y.setDate(now.getDate() - 1);
+  if (d.toDateString() === y.toDateString()) return 'Вчера';
+  return 'Ранее';
+}
+function setHistoryFilter(val) {
+  state.historyFilter = val || '';
+  renderHistory();
+}
+function removeFromHistory(id, ev) {
+  if (ev) ev.stopPropagation();
+  saveWatchHistory(loadWatchHistory().filter(h => h.id !== id));
+  renderHistory();
+  showToast('Удалено из истории');
+}
+function clearWatchHistory() {
+  saveWatchHistory([]);
+  renderHistory();
+  showToast('История очищена');
+}
+function renderHistory() {
+  const container = document.getElementById('historyContainer');
+  if (!container) return;
+  const clearBtn = document.getElementById('historyClearBtn');
+  let list = loadWatchHistory()
+    .map(h => ({ h, v: ytVideosData.find(x => x.id === h.id) }))
+    .filter(x => x.v);
+  const q = (state.historyFilter || '').trim().toLowerCase();
+  if (q) list = list.filter(x => ((x.v.title || '') + ' ' + (x.v.channel || '')).toLowerCase().includes(q));
+  if (clearBtn) clearBtn.style.display = list.length ? '' : 'none';
+  if (!list.length) {
+    container.innerHTML = `<div class="history-empty">🕓 Здесь пока пусто<br>Открой любое видео — и оно появится здесь.<br><br>История своя у каждого зрителя<br>и хранится только на этом устройстве.</div>`;
+    return;
+  }
+  let lastGroup = '';
+  let html = '';
+  list.forEach(({ h, v }) => {
+    const g = historyDayGroup(h.at);
+    if (g !== lastGroup) { html += `<div class="history-group-label">${g}</div>`; lastGroup = g; }
+    html += `
+    <div class="history-item" onclick="openVideoViewer(${v.id})">
+      <div class="history-thumb">
+        <img src="${v.thumb}" alt="" loading="lazy">
+        <span class="history-duration">${v.duration}</span>
+        <div class="history-progress"><div style="width:100%"></div></div>
+      </div>
+      <div class="history-meta">
+        <div class="history-texts">
+          <div class="history-vtitle">${v.title}</div>
+          <div class="history-vsub">${v.channel} • ${v.views}</div>
+          <div class="history-watched">Просмотрено: ${timeAgo(h.at)}</div>
+        </div>
+        <button class="history-remove" onclick="removeFromHistory(${v.id}, event)" title="Убрать">×</button>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
 
 /* ==========================================================================
    ЛОГИКА И РЕНДЕР
@@ -1356,28 +1616,28 @@ function renderReels() {
   `).join('');
 }
 
-// Переключение вкладок (Шапка скрывается на Reels!)
+// Переключение вкладок (Шапка видна на Видео и Истории, скрыта на Reels)
 function switchTab(tab) {
   state.activeTab = tab;
   const feedScreen = document.getElementById('feedScreen');
   const reelsScreen = document.getElementById('reelsScreen');
+  const historyScreen = document.getElementById('historyScreen');
   const tabFeedBtn = document.getElementById('tabFeedBtn');
   const tabReelsBtn = document.getElementById('tabReelsBtn');
+  const tabHistoryBtn = document.getElementById('tabHistoryBtn');
   const header = document.getElementById('appHeader');
 
-  if (tab === 'feed') {
-    feedScreen.classList.add('active');
-    reelsScreen.classList.remove('active');
-    tabFeedBtn.classList.add('active');
-    tabReelsBtn.classList.remove('active');
-    if (header) header.style.display = 'flex'; // Показываем шапку на вкладке Видео
-  } else {
-    reelsScreen.classList.add('active');
-    feedScreen.classList.remove('active');
-    tabReelsBtn.classList.add('active');
-    tabFeedBtn.classList.remove('active');
-    if (header) header.style.display = 'none'; // СКРЫВАЕМ шапку на вкладке Reels!
-  }
+  feedScreen.classList.toggle('active', tab === 'feed');
+  reelsScreen.classList.toggle('active', tab === 'reels');
+  historyScreen.classList.toggle('active', tab === 'history');
+
+  tabFeedBtn.classList.toggle('active', tab === 'feed');
+  tabReelsBtn.classList.toggle('active', tab === 'reels');
+  if (tabHistoryBtn) tabHistoryBtn.classList.toggle('active', tab === 'history');
+
+  if (header) header.style.display = tab === 'reels' ? 'none' : 'flex';
+
+  if (tab === 'history') renderHistory();
 }
 
 // Открытие видео в модальном просмотрщике
@@ -1385,6 +1645,7 @@ function openVideoViewer(id) {
   const v = ytVideosData.find(x => x.id === id);
   if (!v) return;
 
+  addToWatchHistory(id);
   state.currentViewerVideoId = id;
   state.isDescExpanded = false;
 
@@ -1628,6 +1889,7 @@ function showToast(text) {
 document.addEventListener('DOMContentLoaded', () => {
   renderFeed();
   renderReels();
+  renderHistory();
 });
 </script>
 </body>
