@@ -741,28 +741,6 @@ body {
 }
 .viewer-title-more:active { transform: scale(0.92); }
 .viewer-title-more.expanded { transform: rotate(180deg); background: var(--bg-surface-hover); }
-/* Кнопка развернуть плеер в ландшафт */
-.player-expand-btn {
-  position: absolute;
-  right: 10px;
-  bottom: 28px;
-  z-index: 21;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(8px);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-.player-expand-btn:active { transform: scale(0.92); }
-/* фуллскрин состояние */
-.video-viewer-player:fullscreen { width: 100vw; height: 100vh; aspect-ratio: auto; background: #000; }
-.video-viewer-player:fullscreen img { object-fit: contain; }
 
 /* Панель действий */
 .viewer-actions-row {
@@ -865,14 +843,18 @@ body {
   border: 1px solid var(--border-color);
 }
 
-/* Описание */
+/* Описание — скрыто, показывается только стрелкой у заголовка */
 .viewer-description-box {
+  display: none;
   padding: 12px 14px;
   background: rgba(18, 21, 34, 0.5);
-  margin: 12px 14px;
+  margin: 4px 14px 12px 14px;
   border-radius: 12px;
   border: 1px solid var(--border-color);
   cursor: pointer;
+}
+.viewer-description-box.expanded {
+  display: block;
 }
 
 .viewer-description-text {
@@ -1240,11 +1222,6 @@ body {
         
         <img id="viewerThumb" src="" alt="">
         
-        <!-- Кнопка развернуть в ландшафт (Android WebView + Web fullscreen) -->
-        <button class="player-expand-btn" onclick="toggleViewerFullscreen()" title="Развернуть">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><polyline points="21 14 21 21 14 21"></polyline><polyline points="3 10 3 3 10 3"></polyline></svg>
-        </button>
-
         <!-- Оверлей плеера -->
         <div class="player-controls-overlay">
           <div></div>
@@ -1293,6 +1270,13 @@ body {
         </button>
       </div>
 
+      <!-- Описание + просмотры (открывается стрелкой у заголовка) -->
+      <div class="viewer-description-box" id="viewerDescBox" onclick="toggleDescription()">
+        <div class="viewer-views-line" id="viewerViewsLine" style="font-size:12px;color:var(--text-sub);margin-bottom:6px;"></div>
+        <div class="viewer-description-text" id="viewerDescText"></div>
+        <span class="viewer-description-toggle" id="viewerDescToggle">Показать ещё</span>
+      </div>
+
       <!-- Автор канала -->
       <div class="viewer-author-row">
         <div class="viewer-author-info">
@@ -1303,13 +1287,6 @@ body {
           </div>
         </div>
         <button class="subscribe-btn" id="viewerSubBtn" onclick="toggleViewerSubscribe()">Подписаться</button>
-      </div>
-
-      <!-- Описание (открывается стрелкой у заголовка) -->
-      <div class="viewer-description-box" id="viewerDescBox" onclick="toggleDescription()">
-        <div class="viewer-views-line" id="viewerViewsLine" style="font-size:12px;color:var(--text-sub);margin-bottom:6px;"></div>
-        <div class="viewer-description-text" id="viewerDescText"></div>
-        <span class="viewer-description-toggle" id="viewerDescToggle">Показать ещё</span>
       </div>
 
       <!-- Похожие видео -->
@@ -1681,34 +1658,6 @@ function toggleDescription() {
     if (moreBtn) moreBtn.classList.remove('expanded');
   }
 }
-
-function toggleViewerFullscreen() {
-  const player = document.querySelector('.video-viewer-player');
-  if (!player) return;
-  // если уже фуллскрин — выйти
-  if (document.fullscreenElement === player || document.webkitFullscreenElement === player) {
-    if (document.exitFullscreen) document.exitFullscreen();
-    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    return;
-  }
-  // попробовать нативный fullscreen
-  try {
-    if (player.requestFullscreen) player.requestFullscreen();
-    else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
-    // попытка лока ориентации на Android
-    if (screen.orientation && screen.orientation.lock) {
-      screen.orientation.lock('landscape').catch(()=>{});
-    }
-  } catch(e) {
-    // фолбэк: просто добавить класс для ландшафта внутри WebView
-    player.classList.toggle('force-landscape');
-  }
-}
-document.addEventListener('fullscreenchange', () => {
-  if (!document.fullscreenElement && screen.orientation && screen.orientation.unlock) {
-    try { screen.orientation.unlock(); } catch(e){}
-  }
-});
 
 function renderSimilarVideos(currentId) {
   const container = document.getElementById('similarContainer');
