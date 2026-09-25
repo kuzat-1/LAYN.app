@@ -1336,8 +1336,45 @@ body {
 /* ==========================================================================
    ДАННЫЕ И СОСТОЯНИЕ (STATE)
    ========================================================================== */
-const ytVideosData = [];
-// Тестовые видео удалены — лента наполняется реальными данными с layn.su.
+const ytVideosData = [
+  {
+    id: 1,
+    title: 'Don 2 Uzbek tilida HD',
+    channel: 'Cinema Premium HD',
+    subscribers: 'Канал layn.su',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80',
+    thumb: 'https://sun9-75.userapi.com/impg/qRYsERZspjTc_ATEcxfBmnSkXUtVluzB3uhroA/iKSf4ipVpTw.jpg?size=800x450&quality=95&keep_aspect_ratio=1&background=000000&sign=d750175d07b6de99993577fc3d7ac236&type=video_thumb',
+    duration: '02:25:48',
+    views: '1',
+    time: '7 часов назад',
+    likes: 12,
+    commentsCount: 3,
+    description: 'Don 2 на узбекском языке в HD. Смотрите на layn.su — раздел Фильм и анимация. Нажмите стрелку у названия, чтобы раскрыть описание.',
+    isSubscribed: false,
+    isLiked: false,
+    comments: [
+      { author: 'Сардор К.', text: 'Отличное качество, спасибо за узбекскую озвучку!', time: '5 часов назад' }
+    ]
+  },
+  {
+    id: 2,
+    title: 'Isxorsiz muhabbat Uzbek tilida HD',
+    channel: 'Cinema Premium HD',
+    subscribers: 'Канал layn.su',
+    avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=120&auto=format&fit=crop&q=80',
+    thumb: 'https://sun9-58.userapi.com/impg/GGCfPTcWaaRmtEiNytEnpPZ3S_iAOZAdY6lQyw/tRr7hFRyMU8.jpg?size=800x450&quality=95&keep_aspect_ratio=1&background=000000&sign=42b854a963348d34990ba38e1c5e9db1&type=video_thumb',
+    duration: '02:40:46',
+    views: '1',
+    time: '7 часов назад',
+    likes: 8,
+    commentsCount: 1,
+    description: 'Isxorsiz muhabbat на узбекском языке в HD. Смотрите на layn.su. Кнопка разворота в плеере открывает фильм в ландшафтном режиме.',
+    isSubscribed: false,
+    isLiked: false,
+    comments: []
+  }
+];
+// Демо-видео с layn.su для проверки описания и ландшафта.
 
 const reelsData = [
   {
