@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LAYN Admin</title>
+<meta name="theme-color" content="#0b0c12">
+<style>
+:root{
+  --bg:#08090d;--panel:#10121a;--panel2:#141723;--line:rgba(255,255,255,.08);
+  --text:#f5f6fb;--muted:#8b91a3;--accent:#7667ff;--accent2:#9a8fff;
+  --good:#42d392;--warn:#f0bd57;--bad:#ff6678;--shadow:0 20px 60px rgba(0,0,0,.38);
+  --r:18px;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at top right,#17152a 0,#0a0b10 38%,#08090d 72%);color:var(--text)}
+body{font-size:14px}.app{display:flex;min-height:100vh}.sidebar{width:258px;position:fixed;inset:0 auto 0 0;padding:18px 14px;background:rgba(10,11,16,.88);backdrop-filter:blur(22px);border-right:1px solid var(--line);z-index:20}
+.brand{display:flex;align-items:center;gap:10px;padding:10px 10px 18px}.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#232532,#12141b);display:grid;place-items:center;border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}.brand-mark svg{width:18px}.brand-name{font-weight:800;letter-spacing:.16em;font-size:15px}.brand-sub{font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:.08em}
+.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#aeb4c3;text-align:left;padding:11px 12px;border-radius:12px;display:flex;align-items:center;gap:11px;font:inherit;cursor:pointer}.nav button:hover{background:rgba(255,255,255,.045);color:#fff}.nav button.active{background:linear-gradient(135deg,rgba(118,103,255,.22),rgba(118,103,255,.08));color:#fff;box-shadow:inset 0 0 0 1px rgba(118,103,255,.15)}.ico{width:18px;height:18px;opacity:.95}.sidebar-footer{position:absolute;left:14px;right:14px;bottom:16px;display:grid;gap:8px}.mini{border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:14px;padding:11px}.mini b{display:block;font-size:12px}.mini span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.main{margin-left:258px;flex:1;padding:22px;max-width:1700px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}.title h1{font-size:25px;margin:0}.title p{margin:5px 0 0;color:var(--muted)}.top-actions{display:flex;gap:9px}.btn{border:1px solid var(--line);background:var(--panel);color:#fff;padding:10px 13px;border-radius:12px;font:inherit;cursor:pointer}.btn.primary{background:linear-gradient(135deg,#7868ff,#5e51dd);border-color:rgba(255,255,255,.12)}.btn.ghost{background:transparent}.btn.danger{color:#ffd5da;border-color:rgba(255,102,120,.25);background:rgba(255,102,120,.06)}
+.page{display:none}.page.active{display:block}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:14px}.card{background:linear-gradient(180deg,rgba(19,21,30,.92),rgba(13,15,22,.94));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.stat{padding:16px}.stat .label{color:var(--muted);font-size:12px}.stat .value{font-size:27px;font-weight:800;margin-top:7px}.stat .meta{margin-top:8px;font-size:11px;color:var(--good)}.section{padding:16px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-head h2{font-size:15px;margin:0}.muted{color:var(--muted)}.two{grid-template-columns:1.35fr .85fr}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}.table th{font-size:11px;color:var(--muted);font-weight:600}.table td{font-size:13px}.thumb{width:64px;height:36px;border-radius:8px;object-fit:cover;background:#1a1d28}.row-title{display:flex;align-items:center;gap:10px}.row-title b{font-size:12px}.status{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:10px;border:1px solid var(--line)}.status.good{color:#9ef0c5;background:rgba(66,211,146,.08)}.status.warn{color:#f7d789;background:rgba(240,189,87,.08)}.status.bad{color:#ffb1bb;background:rgba(255,102,120,.08)}
+.tools{display:flex;gap:8px;flex-wrap:wrap}.input,.select,.textarea{width:100%;border:1px solid var(--line);background:#0d0f15;color:#fff;border-radius:11px;padding:10px 11px;font:inherit;outline:none}.input:focus,.select:focus,.textarea:focus{border-color:rgba(118,103,255,.55);box-shadow:0 0 0 3px rgba(118,103,255,.10)}.search{min-width:220px}.field{display:grid;gap:6px}.field label{font-size:11px;color:var(--muted)}.form{display:grid;gap:12px}.form.two{grid-template-columns:repeat(2,minmax(0,1fr))}.form.three{grid-template-columns:repeat(3,minmax(0,1fr))}.switch{width:42px;height:24px;border-radius:999px;background:#262a37;position:relative;cursor:pointer;border:1px solid var(--line)}.switch:after{content:"";position:absolute;width:18px;height:18px;top:2px;left:2px;background:#fff;border-radius:50%;transition:.2s}.switch.on{background:var(--accent)}.switch.on:after{left:20px}.list{display:grid;gap:9px}.list-item{padding:12px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.02);display:flex;align-items:center;justify-content:space-between;gap:12px}.list-item strong{font-size:12px}.list-item small{display:block;color:var(--muted);margin-top:3px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.66);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.modal.open{display:flex}.dialog{width:min(820px,100%);max-height:min(92vh,900px);overflow:auto;background:#0e1017;border:1px solid var(--line);border-radius:22px;box-shadow:0 35px 100px rgba(0,0,0,.6)}.dialog-head,.dialog-foot{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.dialog-foot{border-top:1px solid var(--line);border-bottom:0}.dialog-body{padding:17px}.close{border:0;background:transparent;color:#c5c9d6;cursor:pointer;width:36px;height:36px;border-radius:10px}.close:hover{background:rgba(255,255,255,.06)}
+.badge{font-size:10px;color:#bbbff0;background:rgba(118,103,255,.10);padding:4px 7px;border-radius:999px}.kpi{font-size:18px;font-weight:800}.progress{height:7px;border-radius:999px;background:#1b1e28;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,#6b5cf0,#a092ff);border-radius:inherit}.empty{padding:22px;text-align:center;color:var(--muted)}.mobile-menu{display:none}
+@media(max-width:1000px){.sidebar{width:220px}.main{margin-left:220px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.two,.three{grid-template-columns:1fr}}
+@media(max-width:760px){.sidebar{transform:translateX(-100%);transition:.2s;width:280px}.sidebar.open{transform:none}.main{margin-left:0;padding:14px}.topbar{align-items:flex-start}.mobile-menu{display:grid;width:40px;height:40px;place-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:#fff}.title{display:flex;gap:10px}.top-actions{flex-wrap:wrap}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.form.two,.form.three{grid-template-columns:1fr}}
+@media(max-width:480px){.stats{grid-template-columns:1fr 1fr}.stat .value{font-size:23px}.search{min-width:160px}.section{padding:13px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l10-6.5L8 5.5Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg></div>
+    <div><div class="brand-name">LAYN</div><div class="brand-sub">CONTROL CENTER</div></div>
+  </div>
+  <nav class="nav" id="nav">
+    <button class="active" data-page="dashboard">◈ <span>Dashboard</span></button>
+    <button data-page="videos">▶ <span>Видео</span></button>
+    <button data-page="reels">◉ <span>Reels</span></button>
+    <button data-page="catalog">▦ <span>Каталог</span></button>
+    <button data-page="comments">☵ <span>Комментарии</span></button>
+    <button data-page="settings">⚙ <span>Настройки</span></button>
+    <button data-page="documents">▤ <span>Документы</span></button>
+    <button data-page="updates">↟ <span>Обновления</span></button>
+    <button data-page="security">⌁ <span>Безопасность</span></button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="mini"><b>LAYN Admin</b><span>Owner · online</span></div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="title">
+      <button class="mobile-menu" id="menuBtn">☰</button>
+      <div><h1 id="pageTitle">Dashboard</h1><p id="pageSub">Управление мобильным приложением LAYN</p></div>
+    </div>
+    <div class="top-actions"><button class="btn ghost" id="refreshBtn">Обновить</button><button class="btn primary" id="quickBtn">+ Добавить</button></div>
+  </div>
+
+  <section class="page active" id="page-dashboard">
+    <div class="grid stats">
+      <div class="card stat"><div class="label">Видео</div><div class="value">876</div><div class="meta">+18 за 7 дней</div></div>
+      <div class="card stat"><div class="label">Reels</div><div class="value">324</div><div class="meta">+9 за 7 дней</div></div>
+      <div class="card stat"><div class="label">Категории</div><div class="value">18</div><div class="meta">Все активны</div></div>
+      <div class="card stat"><div class="label">Комментарии</div><div class="value">12 481</div><div class="meta">37 требуют модерации</div></div>
+    </div>
+    <div class="grid two">
+      <div class="card section">
+        <div class="section-head"><h2>Каталог и публикация</h2><span class="status good">● Онлайн</span></div>
+        <div class="list">
+          <div class="list-item"><div><strong>Опубликовано</strong><small>Видео доступны пользователям</small></div><div class="kpi">842</div></div>
+          <div class="list-item"><div><strong>Черновики</strong><small>Ожидают публикации</small></div><div class="kpi">21</div></div>
+          <div class="list-item"><div><strong>Скрыто</strong><small>Недоступно в приложении</small></div><div class="kpi">13</div></div>
+        </div>
+      </div>
+      <div class="card section">
+        <div class="section-head"><h2>Быстрые действия</h2></div>
+        <div class="tools">
+          <button class="btn primary" onclick="openVideo()">+ Видео</button>
+          <button class="btn" onclick="go('reels')">Reels</button>
+          <button class="btn" onclick="go('updates')">Новая версия</button>
+          <button class="btn" onclick="go('documents')">Документы</button>
+        </div>
+      </div>
+    </div>
+    <div class="card section" style="margin-top:14px">
+      <div class="section-head"><h2>Последние действия администратора</h2><span class="muted">Сегодня</span></div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Время</th><th>Действие</th><th>Объект</th><th>Статус</th></tr></thead><tbody>
+      <tr><td>01:42</td><td>Изменено первое место</td><td>«Фильм дня»</td><td><span class="status good">Готово</span></td></tr>
+      <tr><td>01:15</td><td>Опубликован Reel</td><td>reel_324</td><td><span class="status good">Готово</span></td></tr>
+      <tr><td>00:58</td><td>Изменена категория</td><td>video_841</td><td><span class="status good">Готово</span></td></tr>
+      </tbody></table></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-videos">
+    <div class="card section">
+      <div class="section-head"><h2>Все видео</h2><div class="tools"><input class="input search" id="videoSearch" placeholder="Поиск по названию"><select class="select" id="videoFilter"><option value="all">Все статусы</option><option value="published">Опубликовано</option><option value="draft">Черновик</option><option value="hidden">Скрыто</option></select><button class="btn primary" onclick="openVideo()">+ Добавить видео</button></div></div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Видео</th><th>Категория</th><th>Страна</th><th>Приоритет</th><th>Статус</th><th>Действия</th></tr></thead><tbody id="videoRows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-reels">
+    <div class="card section"><div class="section-head"><h2>Reels</h2><button class="btn primary" onclick="openReel()">+ Добавить Reel</button></div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Reel</th><th>Автор</th><th>Категория</th><th>Просмотры</th><th>Статус</th><th></th></tr></thead><tbody id="reelRows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-catalog">
+    <div class="grid two">
+      <div class="card section"><div class="section-head"><h2>Категории</h2><button class="btn primary" onclick="addCatalog('category')">+ Добавить</button></div><div class="list" id="categories"></div></div>
+      <div class="card section"><div class="section-head"><h2>Страны</h2><button class="btn primary" onclick="addCatalog('country')">+ Добавить</button></div><div class="list" id="countries"></div></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-comments">
+    <div class="grid two">
+      <div class="card section"><div class="section-head"><h2>Модерация</h2><span class="badge">37 жалоб</span></div>
+        <div class="list">
+          <div class="list-item"><div><strong>Автопроверка ссылок</strong><small>Проверять битые ссылки перед публикацией</small></div><div class="switch on"></div></div>
+          <div class="list-item"><div><strong>Нецензурная лексика</strong><small>Скрывать совпадения до проверки модератором</small></div><div class="switch on"></div></div>
+          <div class="list-item"><div><strong>Разрешить комментарии</strong><small>Глобальный переключатель</small></div><div class="switch on"></div></div>
+        </div>
+      </div>
+      <div class="card section"><div class="section-head"><h2>Очередь жалоб</h2></div><div class="list"><div class="list-item"><div><strong>@user_148 · spam</strong><small>video_833 · 4 минуты назад</small></div><button class="btn">Открыть</button></div><div class="list-item"><div><strong>@moviefan · оскорбление</strong><small>video_801 · 18 минут назад</small></div><button class="btn">Открыть</button></div></div></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-settings">
+    <div class="grid two">
+      <div class="card section"><div class="section-head"><h2>Параметры приложения</h2><span class="badge">Live config</span></div><div class="form">
+        <div class="field"><label>Название</label><input class="input" value="LAYN"></div>
+        <div class="form two"><div class="field"><label>Текущая версия</label><input class="input" value="1.3.4"></div><div class="field"><label>Build</label><input class="input" value="34"></div></div>
+        <div class="field"><label>Контакт разработчика</label><input class="input" value="support@layn.app"></div>
+        <div class="field"><label>Google Play URL</label><input class="input" value="https://play.google.com/store/apps/details?id=su.layn.app"></div>
+        <button class="btn primary" onclick="toast('Настройки сохранены')">Сохранить настройки</button>
+      </div></div>
+      <div class="card section"><div class="section-head"><h2>Функции</h2></div><div class="list">
+        <div class="list-item"><div><strong>Reels</strong><small>Вертикальная лента</small></div><div class="switch on"></div></div>
+        <div class="list-item"><div><strong>История просмотров</strong><small>Локальная история</small></div><div class="switch on"></div></div>
+        <div class="list-item"><div><strong>Комментарии</strong><small>Комментарии и ответы</small></div><div class="switch on"></div></div>
+        <div class="list-item"><div><strong>Похожие видео</strong><small>Рекомендации после просмотра</small></div><div class="switch on"></div></div>
+        <div class="list-item"><div><strong>Автовоспроизведение</strong><small>Следующее видео автоматически</small></div><div class="switch"></div></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-documents">
+    <div class="grid three">
+      <div class="card section"><div class="section-head"><h2>Политика конфиденциальности</h2><span class="status good">Опубликовано</span></div><p class="muted">Версия документа 1.2 · обновлено 24.09.2026</p><button class="btn" onclick="editDoc('privacy')">Редактировать</button></div>
+      <div class="card section"><div class="section-head"><h2>Условия использования</h2><span class="status good">Опубликовано</span></div><p class="muted">Версия документа 1.0 · обновлено 20.09.2026</p><button class="btn" onclick="editDoc('terms')">Редактировать</button></div>
+      <div class="card section"><div class="section-head"><h2>Заявление о безопасности данных</h2><span class="status good">Опубликовано</span></div><p class="muted">Версия документа 1.1 · обновлено 24.09.2026</p><button class="btn" onclick="editDoc('safety')">Редактировать</button></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-updates">
+    <div class="grid two">
+      <div class="card section"><div class="section-head"><h2>Текущий канал</h2><span class="status good">Published</span></div>
+        <div class="list"><div class="list-item"><div><strong>Latest version</strong><small>Версия, которая считается актуальной</small></div><b>1.3.4 (34)</b></div><div class="list-item"><div><strong>Minimum version</strong><small>Минимально допустимая версия</small></div><b>1.3.3 (33)</b></div><div class="list-item"><div><strong>Force update</strong><small>Показывать экран обязательного обновления</small></div><div class="switch"></div></div></div>
+      </div>
+      <div class="card section"><div class="section-head"><h2>Новая версия</h2></div><div class="form"><div class="form two"><div class="field"><label>Версия</label><input class="input" placeholder="1.3.5"></div><div class="field"><label>Build</label><input class="input" placeholder="35"></div></div><div class="field"><label>Ссылка Google Play</label><input class="input" value="https://play.google.com/store/apps/details?id=su.layn.app"></div><div class="field"><label>Что нового</label><textarea class="textarea" rows="5" placeholder="Исправления и новые функции"></textarea></div><button class="btn primary" onclick="toast('Версия сохранена как черновик')">Сохранить черновик</button></div></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-security">
+    <div class="grid two">
+      <div class="card section"><div class="section-head"><h2>Роли</h2><button class="btn primary" onclick="toast('Диалог добавления администратора')">+ Администратор</button></div><div class="list"><div class="list-item"><div><strong>Owner</strong><small>Полный доступ · 2FA</small></div><span class="badge">1 пользователь</span></div><div class="list-item"><div><strong>Editor</strong><small>Видео, Reels, каталог</small></div><span class="badge">2 пользователя</span></div><div class="list-item"><div><strong>Moderator</strong><small>Комментарии и жалобы</small></div><span class="badge">1 пользователь</span></div></div></div>
+      <div class="card section"><div class="section-head"><h2>Защита</h2><span class="status good">Активно</span></div><div class="list"><div class="list-item"><div><strong>2FA</strong><small>Для Owner и Admin</small></div><div class="switch on"></div></div><div class="list-item"><div><strong>Сессии</strong><small>4 активные сессии</small></div><button class="btn danger" onclick="toast('Запрос на завершение других сессий')">Завершить</button></div></div></div>
+    </div>
+    <div class="card section" style="margin-top:14px"><div class="section-head"><h2>Аудит действий</h2></div><div class="table-wrap"><table class="table"><thead><tr><th>Время</th><th>Пользователь</th><th>Действие</th><th>IP</th></tr></thead><tbody><tr><td>01:42</td><td>owner</td><td>video priority 841 → 1</td><td>hidden</td></tr><tr><td>01:15</td><td>editor</td><td>reel published</td><td>hidden</td></tr></tbody></table></div></div>
+  </section>
+</main>
+</div>
+
+<div class="modal" id="videoModal"><div class="dialog">
+  <div class="dialog-head"><div><b id="videoModalTitle">Добавить видео</b><div class="muted" style="font-size:11px;margin-top:3px">Управление источником VK Video и публикацией</div></div><button class="close" onclick="closeModal('videoModal')">✕</button></div>
+  <div class="dialog-body"><div class="form">
+    <div class="field"><label>Название</label><input class="input" id="vTitle"></div>
+    <div class="form two"><div class="field"><label>Категория</label><select class="select" id="vCategory"><option>Фильмы</option><option>Сериалы</option><option>Документальные</option><option>Мультфильмы</option></select></div><div class="field"><label>Страна</label><select class="select" id="vCountry"><option>Россия</option><option>Казахстан</option><option>США</option><option>Великобритания</option><option>Другое</option></select></div></div>
+    <div class="form three"><div class="field"><label>Год</label><input class="input" id="vYear" value="2026"></div><div class="field"><label>Возраст</label><select class="select" id="vAge"><option>0+</option><option>6+</option><option>12+</option><option>16+</option><option>18+</option></select></div><div class="field"><label>Приоритет</label><input class="input" id="vPriority" value="0"></div></div>
+    <div class="field"><label>VK Video URL / ID</label><input class="input" id="vUrl" placeholder="https://vkvideo.ru/video-..."></div>
+    <div class="form two"><div class="field"><label>Backup URL</label><input class="input" id="vBackup" placeholder="Необязательно"></div><div class="field"><label>Обложка URL</label><input class="input" id="vThumb" placeholder="https://..."></div></div>
+    <div class="field"><label>Описание</label><textarea class="textarea" id="vDesc" rows="4"></textarea></div>
+    <div class="form two"><div class="list-item"><div><strong>Показать первым</strong><small>Поднять в выдаче</small></div><div class="switch" id="vFeatured" onclick="this.classList.toggle('on')"></div></div><div class="list-item"><div><strong>Опубликовано</strong><small>Доступно в приложении</small></div><div class="switch on" id="vPublished" onclick="this.classList.toggle('on')"></div></div></div>
+  </div></div>
+  <div class="dialog-foot"><button class="btn" onclick="checkLink()">Проверить ссылку</button><div class="tools"><button class="btn ghost" onclick="closeModal('videoModal')">Отмена</button><button class="btn primary" onclick="saveVideo()">Сохранить</button></div></div>
+</div></div>
+
+<div class="modal" id="simpleModal"><div class="dialog" style="max-width:620px"><div class="dialog-head"><b id="simpleTitle">Окно</b><button class="close" onclick="closeModal('simpleModal')">✕</button></div><div class="dialog-body" id="simpleBody"></div><div class="dialog-foot"><button class="btn ghost" onclick="closeModal('simpleModal')">Закрыть</button></div></div></div>
+
+<script>
+const state={
+  videos:[
+   {id:'841',title:'Фильм дня',cat:'Фильмы',country:'Россия',priority:1,status:'published',thumb:''},
+   {id:'840',title:'Большое путешествие',cat:'Документальные',country:'Казахстан',priority:2,status:'published',thumb:''},
+   {id:'839',title:'Ночной город',cat:'Фильмы',country:'США',priority:0,status:'draft',thumb:''},
+   {id:'838',title:'История одной семьи',cat:'Сериалы',country:'Великобритания',priority:0,status:'published',thumb:''},
+   {id:'837',title:'Последний рейс',cat:'Фильмы',country:'Россия',priority:0,status:'hidden',thumb:''}
+  ],
+  reels:[
+   {id:'324',title:'30 секунд из фильма',author:'layn_official',cat:'Фильмы',views:'18.4K',status:'published'},
+   {id:'323',title:'Казахстан за минуту',author:'travel_layn',cat:'Путешествия',views:'8.2K',status:'published'},
+   {id:'322',title:'Новая подборка',author:'editor',cat:'Подборки',views:'0',status:'draft'}
+  ],
+  categories:['Фильмы','Сериалы','Документальные','Мультфильмы','Путешествия','Подборки'],
+  countries:['Россия','Казахстан','США','Великобритания','Южная Корея','Другое']
+};
+const pages={
+ dashboard:['Dashboard','Управление мобильным приложением LAYN'],
+ videos:['Видео','Каталог видео, порядок, статусы и источники'],
+ reels:['Reels','Управление вертикальной лентой'],
+ catalog:['Каталог','Категории и страны'],
+ comments:['Комментарии','Модерация и жалобы'],
+ settings:['Настройки','Глобальная конфигурация приложения'],
+ documents:['Документы','Публичные документы приложения'],
+ updates:['Обновления','Версии, minimum version и force update'],
+ security:['Безопасность','Роли, 2FA и аудит']
+};
+function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));document.getElementById('pageTitle').textContent=pages[page][0];document.getElementById('pageSub').textContent=pages[page][1];document.getElementById('quickBtn').style.display=page==='videos'||page==='reels'?'block':'none';document.getElementById('sidebar').classList.remove('open')}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+document.getElementById('menuBtn').onclick=()=>document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('quickBtn').onclick=()=>{const p=document.querySelector('.nav button.active')?.dataset.page; if(p==='reels')openReel(); else openVideo()};
+document.getElementById('refreshBtn').onclick=()=>{renderAll();toast('Данные обновлены')};
+function renderVideos(){const q=(document.getElementById('videoSearch')?.value||'').toLowerCase(), f=document.getElementById('videoFilter')?.value||'all';let a=state.videos.filter(v=>(!q||v.title.toLowerCase().includes(q)||v.id.includes(q))&&(f==='all'||v.status===f));document.getElementById('videoRows').innerHTML=a.map(v=>'<tr><td><div class="row-title"><div class="thumb">'+(v.thumb?'<img class="thumb" src="'+v.thumb+'" alt="">':'')+'</div><div><b>'+v.title+'</b><div class="muted">ID '+v.id+'</div></div></div></td><td>'+v.cat+'</td><td>'+v.country+'</td><td><span class="badge">'+v.priority+'</span></td><td>'+status(v.status)+'</td><td><button class="btn" onclick="editVideo(\''+v.id+'\')">Изменить</button></td></tr>').join('')||'<tr><td colspan="6" class="empty">Ничего не найдено</td></tr>'}
+function renderReels(){document.getElementById('reelRows').innerHTML=state.reels.map(r=>'<tr><td><b>'+r.title+'</b><div class="muted">ID '+r.id+'</div></td><td>'+r.author+'</td><td>'+r.cat+'</td><td>'+r.views+'</td><td>'+status(r.status)+'</td><td><button class="btn" onclick="toast(\'Открыт Reel '+r.id+'\')">Изменить</button></td></tr>').join('')}
+function renderCatalog(){document.getElementById('categories').innerHTML=state.categories.map((x,i)=>'<div class="list-item"><div><strong>'+x+'</strong><small>Активная категория</small></div><div class="tools"><span class="badge">'+(148-i*11)+'</span><button class="btn" onclick="renameCatalog(\'category\','+i+')">Изменить</button></div></div>').join('');document.getElementById('countries').innerHTML=state.countries.map((x,i)=>'<div class="list-item"><div><strong>'+x+'</strong><small>Страна каталога</small></div><div class="tools"><span class="badge">'+(92-i*7)+'</span><button class="btn" onclick="renameCatalog(\'country\','+i+')">Изменить</button></div></div>').join('')}
+function status(s){return s==='published'?'<span class="status good">● Опубликовано</span>':s==='draft'?'<span class="status warn">● Черновик</span>':'<span class="status bad">● Скрыто</span>'}
+function renderAll(){renderVideos();renderReels();renderCatalog()}
+function openVideo(){document.getElementById('videoModalTitle').textContent='Добавить видео';document.getElementById('vTitle').value='';document.getElementById('vUrl').value='';document.getElementById('vBackup').value='';document.getElementById('vThumb').value='';document.getElementById('vDesc').value='';document.getElementById('vPriority').value='0';document.getElementById('videoModal').dataset.edit='';document.getElementById('videoModal').classList.add('open')}
+function editVideo(id){const v=state.videos.find(x=>x.id===id);if(!v)return;document.getElementById('videoModalTitle').textContent='Изменить видео';document.getElementById('vTitle').value=v.title;document.getElementById('vCategory').value=v.cat;document.getElementById('vCountry').value=v.country;document.getElementById('vPriority').value=v.priority;document.getElementById('vUrl').value='';document.getElementById('vDesc').value='';document.getElementById('videoModal').dataset.edit=id;document.getElementById('videoModal').classList.add('open')}
+function saveVideo(){const id=document.getElementById('videoModal').dataset.edit;if(id){const v=state.videos.find(x=>x.id===id);Object.assign(v,{title:document.getElementById('vTitle').value||v.title,cat:document.getElementById('vCategory').value,country:document.getElementById('vCountry').value,priority:+document.getElementById('vPriority').value||0})}else state.videos.unshift({id:String(842+Math.floor(Math.random()*99)),title:document.getElementById('vTitle').value||'Новое видео',cat:document.getElementById('vCategory').value,country:document.getElementById('vCountry').value,priority:+document.getElementById('vPriority').value||0,status:'draft',thumb:''});renderVideos();closeModal('videoModal');toast('Видео сохранено')}
+function checkLink(){const u=document.getElementById('vUrl').value.trim();toast(u?'Ссылка добавлена в проверку':'Введите VK Video URL / ID')}
+function openReel(){openSimple('Добавить Reel','<div class="form"><div class="field"><label>Название</label><input class="input" placeholder="Название Reel"></div><div class="field"><label>VK Video URL / ID</label><input class="input" placeholder="https://vkvideo.ru/..."></div><div class="field"><label>Категория</label><select class="select"><option>Фильмы</option><option>Подборки</option><option>Путешествия</option></select></div><button class="btn primary" onclick="toast(\'Reel сохранён как черновик\');closeModal(\'simpleModal\')">Сохранить</button></div>')}
+function addCatalog(type){const n=prompt(type==='category'?'Название категории:':'Название страны:');if(!n)return;type==='category'?state.categories.push(n):state.countries.push(n);renderCatalog();toast('Добавлено')}
+function renameCatalog(type,i){const arr=type==='category'?state.categories:state.countries;const n=prompt('Новое название:',arr[i]);if(!n)return;arr[i]=n;renderCatalog();toast('Изменено')}
+function editDoc(type){const names={privacy:'Политика конфиденциальности',terms:'Условия использования',safety:'Заявление о безопасности данных'};openSimple(names[type],'<div class="field"><label>Текст документа</label><textarea class="textarea" rows="12">Здесь находится текущая редакция документа '+names[type]+'. Администратор может заменить этот текст и опубликовать новую версию.</textarea></div><div style="height:10px"></div><button class="btn primary" onclick="toast(\'Документ сохранён\');closeModal(\'simpleModal\')">Сохранить</button>')}
+function openSimple(title,body){document.getElementById('simpleTitle').textContent=title;document.getElementById('simpleBody').innerHTML=body;document.getElementById('simpleModal').classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function toast(msg){let x=document.getElementById('toast');if(!x){x=document.createElement('div');x.id='toast';x.style.cssText='position:fixed;right:18px;bottom:18px;padding:11px 14px;border:1px solid rgba(255,255,255,.1);background:#161923;color:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4);z-index:99';document.body.appendChild(x)}x.textContent=msg;x.style.display='block';clearTimeout(window.__t);window.__t=setTimeout(()=>x.style.display='none',1800)}
+document.getElementById('videoSearch').addEventListener('input',renderVideos);document.getElementById('videoFilter').addEventListener('change',renderVideos);renderAll();
+</script>
+</body>
+</html>
