@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-<title>TANHO — Мобильная видеоплатформа</title>
+<title>LAYN — Мобильная видеоплатформа</title>
 <style>
 /* ==========================================================================
    1. ДИЗАЙН-СИСТЕМА И ПЕРЕМЕННЫЕ
@@ -1131,6 +1131,39 @@ body {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* ==========================================================================
+   LAYN POLISH — unified mobile design system
+   ========================================================================== */
+:root{
+  --bg-dark:#090a0f;
+  --bg-surface:#11131a;
+  --bg-surface-hover:#181b25;
+  --border-color:rgba(255,255,255,.075);
+  --border-focus:rgba(255,255,255,.16);
+  --primary-accent:#7568f5;
+  --primary-accent-hover:#6558df;
+  --text-sub:#9298aa;
+  --text-muted:#666c7d;
+}
+.standalone-shell{background:linear-gradient(180deg,#090a0f 0%,#08090d 100%);box-shadow:0 0 70px rgba(0,0,0,.75)}
+.app-header{height:calc(52px + var(--safe-top));padding-left:calc(16px + var(--safe-left));padding-right:calc(12px + var(--safe-right));background:rgba(9,10,15,.78);border-bottom-color:rgba(255,255,255,.06);box-shadow:0 8px 30px rgba(0,0,0,.14)}
+.app-logo{position:relative;display:flex;align-items:center;gap:7px;font-size:17px;letter-spacing:.16em;color:#d9dbe2;background:none;-webkit-text-fill-color:initial;text-shadow:0 1px 10px rgba(255,255,255,.08)}
+.app-logo:before{content:"";width:14px;height:14px;border:1.6px solid #8f94a1;border-radius:4px;clip-path:polygon(0 0,100% 50%,0 100%);opacity:.9}
+.header-actions{gap:4px}.icon-btn{width:40px;height:40px;border-radius:12px;color:#d7d9e2}.icon-btn:active{transform:scale(.94);background:rgba(117,104,245,.13)}
+.video-feed{padding:12px 12px calc(92px + var(--safe-bottom)) 12px;gap:13px}
+.yt-card{background:linear-gradient(180deg,#12141c,#0f1117);border-radius:19px;padding:8px;gap:9px;border-color:rgba(255,255,255,.065);box-shadow:0 8px 28px rgba(0,0,0,.16)}
+.yt-card:active{transform:scale(.988);border-color:rgba(117,104,245,.28)}
+.yt-thumb-wrap{border-radius:14px}.yt-duration{bottom:7px;right:7px;background:rgba(5,6,9,.76);border-color:rgba(255,255,255,.1);padding:4px 7px;border-radius:7px}
+.yt-info-block{padding:2px 3px 2px;gap:10px}.yt-avatar{width:38px;height:38px;border-color:rgba(255,255,255,.08)}.yt-title{font-size:14px;line-height:1.3}.yt-meta,.yt-channel{color:#858b9d}
+.bottom-capsule-nav{height:calc(64px + var(--safe-bottom));bottom:0;padding:7px 10px calc(7px + var(--safe-bottom));background:rgba(14,16,23,.9)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 -8px 30px rgba(0,0,0,.25),0 12px 40px rgba(0,0,0,.35);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-radius:22px 22px 0 0!important}
+.capsule-btn{min-width:62px;height:48px;border-radius:15px;color:#747b8e!important;gap:4px;transition:background .18s ease,color .18s ease,transform .18s ease}.capsule-btn svg{width:20px;height:20px}.capsule-btn span{font-size:10px;font-weight:600}.capsule-btn.active{color:#fff!important;background:rgba(117,104,245,.14)!important;box-shadow:inset 0 0 0 1px rgba(117,104,245,.16)}.capsule-btn:active{transform:scale(.94)}
+.reel-action-btn{width:46px;height:46px;border-radius:15px;background:rgba(10,11,16,.48);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px)}
+.video-viewer-player{border-radius:0 0 22px 22px;overflow:hidden;background:#050608}.player-center-play{width:58px;height:58px;border-radius:50%;background:rgba(117,104,245,.88);box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.bottom-sheet{border-radius:24px 24px 0 0!important;background:rgba(16,18,25,.97)!important;border-color:rgba(255,255,255,.08)!important;box-shadow:0 -20px 70px rgba(0,0,0,.55)}
+.bottom-sheet-handle{width:38px;height:4px;border-radius:99px;background:#464b59;margin:9px auto 4px}
+button{font-family:inherit}.icon-btn svg,.capsule-btn svg,.reel-action-btn svg{stroke-width:1.9}
+@media(max-width:430px){.yt-card{border-radius:17px}.video-feed{padding-left:10px;padding-right:10px}.app-logo{font-size:16px}}
 </style>
 </head>
 <body>
@@ -1138,7 +1171,7 @@ body {
 <div class="standalone-shell">
   <!-- Верхняя шапка (Отображается ТОЛЬКО на вкладке "Видео") -->
   <header class="app-header" id="appHeader">
-    <div class="app-logo">TANHO</div>
+    <div class="app-logo">LAYN</div>
     <div class="header-actions">
       <button class="icon-btn" onclick="showToast('Поиск временно недоступен')" title="Поиск">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1359,7 +1392,7 @@ const reelsData = [
     author: '@CaliraVal',
     avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120',
     bg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800',
-    caption: 'Летнее видео у моря • TANHO Reels 🌊 #travel #vlog #ocean',
+    caption: 'Летнее видео у моря • LAYN Reels 🌊 #travel #vlog #ocean',
     likes: '2.4K',
     comments: '124',
     isLiked: false
@@ -1743,7 +1776,7 @@ function updateViewerSubUI(isSubscribed) {
 
 function shareVideo() {
   if (navigator.share) {
-    navigator.share({ title: 'TANHO Video', url: window.location.href }).catch(() => {});
+    navigator.share({ title: 'LAYN Video', url: window.location.href }).catch(() => {});
   } else {
     showToast('Ссылка скопирована в буфер');
   }
@@ -1769,7 +1802,7 @@ function openVideoMenu(id) {
 function openGlobalMenu() {
   const content = document.getElementById('sheetContent');
   content.innerHTML = `
-    <div class="sheet-title">Настройки TANHO</div>
+    <div class="sheet-title">Настройки LAYN</div>
     <div class="sheet-menu-list">
       <button class="sheet-menu-item" onclick="handleMenuOption('Качество видео: 1080p')">⚙️ Качество воспроизведения</button>
       <button class="sheet-menu-item" onclick="handleMenuOption('Тёмная тема включена')">🌙 Оформление</button>
