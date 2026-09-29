@@ -1,0 +1,17 @@
+{
+  "brand": "LAYN",
+  "wordmark": "LAYN▶",
+  "palette": {
+    "surface": "#0D0D10",
+    "charcoal": "#17171A",
+    "glassGray": "#343438",
+    "silver": "#F3F3F5",
+    "purple": "#8B5CF6",
+    "purpleDark": "#6D28D9",
+    "purpleLight": "#C084FC"
+  },
+  "headerLogoLogicalSize": {"widthDp": 115, "heightDp": 32},
+  "appIcon": {"source": "layn_app_icon.svg", "recommendedExport": "1024x1024"},
+  "playIcon": {"source": "layn_play_icon.svg", "recommendedExport": "256x256"},
+  "rule": "LAYN text is dark glass/charcoal only. Purple is reserved for the play symbol and small accent lighting."
+}

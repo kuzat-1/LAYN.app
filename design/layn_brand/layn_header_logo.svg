@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 128" role="img" aria-label="LAYN play logo">
+<defs>
+ <linearGradient id="glass" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#f3f3f5"/><stop offset="0.24" stop-color="#9a9aa0"/><stop offset="0.58" stop-color="#343438"/><stop offset="1" stop-color="#17171a"/></linearGradient>
+ <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d8c7ff"/><stop offset="0.35" stop-color="#8b5cf6"/><stop offset="0.7" stop-color="#6d28d9"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="6"/><feColorMatrix values="0 0 0 0 0.25 0 0 0 0 0.05 0 0 0 0 0.5 0 0 0 .55 0"/></filter>
+ <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<g transform="translate(8 8) scale(.965)">
+ <text x="0" y="92" font-family="Arial Rounded MT Bold, Trebuchet MS, sans-serif" font-size="92" font-weight="800" letter-spacing="-5" fill="#000" opacity=".7" filter="url(#shadow)">LAYN</text>
+ <text x="0" y="88" font-family="Arial Rounded MT Bold, Trebuchet MS, sans-serif" font-size="92" font-weight="800" letter-spacing="-5" fill="url(#glass)" stroke="#e8e8eb" stroke-opacity=".38" stroke-width="2">LAYN</text>
+ <path d="M375 30 C392 30 414 45 430 56 C442 65 442 76 430 84 C414 95 392 110 375 110 C365 110 359 103 359 92 V48 C359 38 365 30 375 30Z" fill="#050506" opacity=".65" filter="url(#shadow)"/>
+ <path d="M375 27 C392 27 414 42 430 53 C443 62 443 78 430 87 C414 98 392 113 375 113 C363 113 356 105 356 93 V47 C356 35 363 27 375 27Z" fill="url(#violet)" stroke="#e9ddff" stroke-width="2" filter="url(#glow)"/>
+ <path d="M372 36 C389 37 405 48 417 57 C423 61 423 67 417 72 C405 81 389 92 372 98 C367 100 364 96 364 91 V43 C364 38 367 35 372 36Z" fill="#ffffff" opacity=".16"/>
+</g>
+</svg>

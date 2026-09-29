@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="LAYN play icon">
+<defs><linearGradient id="v" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d8c7ff"/><stop offset=".32" stop-color="#8b5cf6"/><stop offset=".72" stop-color="#6d28d9"/><stop offset="1" stop-color="#c084fc"/></linearGradient><filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<path d="M76 27 C100 27 137 52 174 78 C194 92 194 113 174 128 C137 154 100 179 76 179 C58 179 48 168 48 150 V56 C48 38 58 27 76 27Z" fill="url(#v)" stroke="#eadfff" stroke-width="4" filter="url(#g)"/>
+<path d="M73 42 C98 43 123 60 151 80 C161 87 161 96 151 103 C123 123 98 140 73 142 C66 143 61 138 61 130 V54 C61 46 66 41 73 42Z" fill="#fff" opacity=".16"/>
+</svg>

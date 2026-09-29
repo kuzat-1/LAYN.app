@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="LAYN app icon">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#242429"/><stop offset="1" stop-color="#0d0d10"/></linearGradient><linearGradient id="v" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d8c7ff"/><stop offset=".32" stop-color="#8b5cf6"/><stop offset=".72" stop-color="#6d28d9"/><stop offset="1" stop-color="#c084fc"/></linearGradient><filter id="g" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="18" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<rect x="24" y="24" width="976" height="976" rx="220" fill="url(#bg)" stroke="#5b5b64" stroke-width="5"/>
+<path d="M420 245 C474 245 556 300 680 388 C745 434 745 490 680 536 C556 624 474 679 420 679 C378 679 352 652 352 608 V316 C352 272 378 245 420 245Z" fill="url(#v)" stroke="#eadfff" stroke-width="8" filter="url(#g)"/>
+<path d="M412 287 C466 290 530 331 604 383 C628 400 628 424 604 441 C530 493 466 534 412 537 C396 538 384 525 384 507 V317 C384 299 396 286 412 287Z" fill="#fff" opacity=".15"/>
+</svg>
