@@ -1,82 +1,82 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" width="512" height="512">
+<svg xmlns="http://www.w3.org/2000/svg" width="124" height="124" viewBox="0 0 124 124">
   <defs>
-    <linearGradient id="border" gradientUnits="userSpaceOnUse" x1="108" y1="600" x2="1158" y2="640">
-      <stop offset="0" stop-color="#5a2cf0"/>
-      <stop offset="0.55" stop-color="#7a1ff0"/>
-      <stop offset="1" stop-color="#d43cff"/>
+    <path id="tri" d="M42.8,29.4 L81.2,48.6 Q108,62 81.2,75.4 L42.8,94.6 Q16,108 16,78 L16,46 Q16,16 42.8,29.4 Z"/>
+    <clipPath id="clip"><use href="#tri"/></clipPath>
+
+    <linearGradient id="body" gradientUnits="userSpaceOnUse" x1="16" y1="30" x2="108" y2="82">
+      <stop offset="0" stop-color="#4a2ad8"/>
+      <stop offset="0.30" stop-color="#6f33ec"/>
+      <stop offset="0.55" stop-color="#9b39f0"/>
+      <stop offset="0.75" stop-color="#c844f8"/>
+      <stop offset="0.90" stop-color="#ec5cff"/>
+      <stop offset="1" stop-color="#ff86ea"/>
     </linearGradient>
 
-    <linearGradient id="rightBase" gradientUnits="userSpaceOnUse" x1="650" y1="800" x2="1130" y2="640">
-      <stop offset="0" stop-color="#6a10e0"/>
-      <stop offset="0.45" stop-color="#9a1cf8"/>
-      <stop offset="1" stop-color="#f27cff"/>
+    <linearGradient id="shade" gradientUnits="userSpaceOnUse" x1="0" y1="14" x2="0" y2="110">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.20"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#160033" stop-opacity="0.30"/>
     </linearGradient>
 
-    <linearGradient id="topRight" gradientUnits="userSpaceOnUse" x1="560" y1="260" x2="1080" y2="520">
-      <stop offset="0" stop-color="#8a4ae0"/>
-      <stop offset="0.5" stop-color="#b878ff"/>
-      <stop offset="1" stop-color="#eaa6ff"/>
-    </linearGradient>
-
-    <linearGradient id="leftUpper" gradientUnits="userSpaceOnUse" x1="170" y1="300" x2="640" y2="620">
-      <stop offset="0" stop-color="#7268ff"/>
-      <stop offset="0.35" stop-color="#5a3ef0"/>
-      <stop offset="1" stop-color="#3c1a9c"/>
-    </linearGradient>
-
-    <radialGradient id="darkLens" gradientUnits="userSpaceOnUse" cx="400" cy="860" r="380">
-      <stop offset="0" stop-color="#150842"/>
-      <stop offset="0.55" stop-color="#2a0c78"/>
-      <stop offset="1" stop-color="#5314c8"/>
-    </radialGradient>
-
-    <radialGradient id="glossTL" gradientUnits="userSpaceOnUse" cx="250" cy="215" r="150">
+    <radialGradient id="spec" gradientUnits="userSpaceOnUse" cx="34" cy="30" r="36">
       <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.4" stop-color="#e9ddff" stop-opacity="0.45"/>
       <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
 
-    <radialGradient id="tipGlow" gradientUnits="userSpaceOnUse" cx="1070" cy="640" r="140">
-      <stop offset="0" stop-color="#ffb0ff" stop-opacity="0.8"/>
-      <stop offset="1" stop-color="#ffb0ff" stop-opacity="0"/>
+    <radialGradient id="rightGlow" gradientUnits="userSpaceOnUse" cx="94" cy="62" r="34">
+      <stop offset="0" stop-color="#ffd6ff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffd6ff" stop-opacity="0"/>
     </radialGradient>
 
-    <path id="innerShape" d="M135 300 C135 200 215 152 320 152 C355 152 395 162 440 160 L1050 511 C1105 543 1130 600 1130 636 C1130 675 1095 705 1050 730 L470 1092 C425 1115 375 1122 320 1122 C210 1122 135 1050 135 950 Z"/>
-    <clipPath id="clip"><use href="#innerShape"/></clipPath>
+    <radialGradient id="facetLight" gradientUnits="userSpaceOnUse" cx="66" cy="42" r="48">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="lens" gradientUnits="userSpaceOnUse" cx="52" cy="84" r="42">
+      <stop offset="0" stop-color="#1c0640" stop-opacity="0.92"/>
+      <stop offset="0.55" stop-color="#2a0a55" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#2a0a55" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="rim" gradientUnits="userSpaceOnUse" x1="16" y1="20" x2="108" y2="92">
+      <stop offset="0" stop-color="#e9dcff"/>
+      <stop offset="0.22" stop-color="#9a6cff"/>
+      <stop offset="0.5" stop-color="#b14dff"/>
+      <stop offset="0.8" stop-color="#ff45f0"/>
+      <stop offset="1" stop-color="#ff7ae8"/>
+    </linearGradient>
+
+    <linearGradient id="rimHi" gradientUnits="userSpaceOnUse" x1="16" y1="20" x2="108" y2="92">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="0.7" stop-color="#ffe0ff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.4"/>
+    </filter>
   </defs>
 
-  <!-- Pure white app-icon background -->
-  <rect width="1254" height="1254" fill="#ffffff"/>
+  <!-- Full white square background -->
+  <rect width="124" height="124" fill="#ffffff"/>
 
-  <!-- Outer thin border -->
-  <path d="M108 300 C108 170 200 102 330 102 C370 102 405 112 440 130 L1085 503 C1140 535 1158 590 1158 630 C1158 680 1120 725 1070 752 L470 1118 C420 1140 380 1150 320 1150 C190 1150 108 1070 108 950 Z"
-        fill="#ffffff" stroke="url(#border)" stroke-width="12" stroke-linejoin="round"/>
+  <!-- Outer neon glow -->
+  <use href="#tri" fill="none" stroke="url(#rim)" stroke-width="5" stroke-linejoin="round" filter="url(#glow)" opacity="0.85"/>
 
+  <!-- Glass body and optical layers -->
   <g clip-path="url(#clip)">
-    <!-- Base: violet to pink -->
-    <rect x="100" y="100" width="1100" height="1100" fill="url(#rightBase)"/>
-
-    <!-- Top-right light lilac zone -->
-    <path d="M400 130 C560 300 665 430 665 565 C780 525 900 505 1010 505 L1180 560 L1180 100 Z" fill="url(#topRight)"/>
-
-    <!-- Left upper blue-violet zone -->
-    <path d="M100 100 L400 130 C560 300 665 430 665 565 C450 620 250 760 135 930 L100 930 Z" fill="url(#leftUpper)"/>
-
-    <!-- Dark lower-left lens -->
-    <path d="M135 940 C250 760 450 630 665 565 C672 720 600 900 420 1100 L100 1150 Z" fill="url(#darkLens)"/>
-
-    <!-- Pink glow at tip -->
-    <circle cx="1070" cy="640" r="140" fill="url(#tipGlow)"/>
-
-    <!-- Light band along top edge -->
-    <path d="M440 160 L1050 511" stroke="#ffffff" stroke-opacity="0.35" stroke-width="16" fill="none"/>
-
-    <!-- Top-left glossy highlight -->
-    <ellipse cx="255" cy="215" rx="130" ry="85" fill="url(#glossTL)" transform="rotate(-25 255 215)"/>
-
-    <!-- Bottom-left soft reflection -->
-    <path d="M150 940 C160 1040 230 1100 320 1108 C240 1070 190 1010 175 930 Z" fill="#ffffff" fill-opacity="0.22"/>
+    <use href="#tri" fill="url(#body)"/>
+    <use href="#tri" fill="url(#shade)"/>
+    <ellipse cx="66" cy="42" rx="50" ry="32" fill="url(#facetLight)"/>
+    <ellipse cx="52" cy="84" rx="44" ry="34" fill="url(#lens)"/>
+    <circle cx="94" cy="62" r="34" fill="url(#rightGlow)"/>
+    <ellipse cx="34" cy="30" rx="34" ry="30" fill="url(#spec)"/>
   </g>
 
-  <!-- White inner rim -->
-  <use href="#innerShape" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="9"/>
+  <!-- Glass tube rim -->
+  <use href="#tri" fill="none" stroke="url(#rim)" stroke-width="5.5" stroke-linejoin="round"/>
+  <use href="#tri" fill="none" stroke="url(#rimHi)" stroke-width="1.6" stroke-linejoin="round"/>
 </svg>
